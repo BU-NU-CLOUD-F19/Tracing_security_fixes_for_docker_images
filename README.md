@@ -1,4 +1,4 @@
-# Tracing_security_fixes_for_docker_images
+# Tracing security fixes for docker images
 
 ## Vision and Goals of the Project:
 
@@ -64,35 +64,35 @@ A stretch goal will be to automate the process of fixing the vulnerabilities and
 
 ## Release Planning:	
 
-### Week 1-2 :
+__Week 1-2__
 
-* Literature study - understanding docker files, Clair tool requirements, Shift-left approach and CVEs.
-* Manually analyzing official docker images and find how the docker files change in the corresponding github repositories.
+* Literature study - Understand Dockerfiles, Clair tool requirements, Shift-left approach and CVE (Common Vulnerabilities and Exposures)
+* Manually analyze official docker images, view commit history and identify how Dockerfiles evolve over time
 
-### Week 3-4 : 
+__Week 3-4__ 
 
 * Setup the base project
-* Automate the process of fetching commit history for a given github repository
-* Writing scripts to track changes between commits 
+* Automate the process of fetching commit history for a given GitHub repository
+* Generate a script to track changes between commits 
 
-### Week 4-5 : 
+__Week 4-5__
 
-* Identifying commits which cause a change in the Dockerfile
-* Building images of these commits in the specified timestamp
+* Identify commits contains a change in the Dockerfile
+* Build images of the commits in the specified timestamp
 
-### Week 6-7 :
-* Generating reports using Clair for the images generated.
-* Comparing the reports to identify specific security threat resolved
+__Week 6-7__
 
-### Week 8-9 : 
+* Collect reports using Clair for the images generated
+* Compare the reports to identify if a specific security threat is resolved
 
-* Identifying the difference in the dockerfile between the commits and tagging the change as a resolution for the security threat
-* Running the script across identified official docker images to identify a corpus of remediations for security threats
-* Generate a report mapping the time elapsed between a security threat identification and remediation for each repository.
+__Week 8-9__
 
-### Week 10-11 : 
+* Identify the difference in the Dockerfile between commits and tag the change as a resolution for the security threat
+* Run the script across identified official docker images to identify a corpus of remediations for security vulnerabilities
+* Generate a report mapping the time elapsed between a security threat identification and remediation for each repository
 
-* Creating a script capable of fetching the latest commit for a Github repository, building the docker image and running Claire on the image to identify security threats.
-*Using the resolutions discovered to provide suggestions to resolve the security vulnerabilities identified in the repo.
+__Week 10-11__
 
+* Create a script to fetch the latest commit for a Github repository, build the docker image and use Claire to identify security threats
+* Provide suggestions for security vulnerabilities identified in the repository using the remediations identified
 ____________
