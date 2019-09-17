@@ -28,7 +28,7 @@ It can also be individual software developers contributing to projects containin
 
 ## Solution Concept:
 
-### Design Implications
+### System Components:
 
 Below is a description of the system components and concepts that will be used to accomplish our goals:
 
