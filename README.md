@@ -8,7 +8,7 @@ Understanding this pattern is going to be useful to drive the automated remediat
 The base goals are:
 * Trace various build manifests (Dockerfile, requirement.txt, Makefile, etc.) for official docker images from their respective GitHub repositories 
 * Trace how their build manifests have evolved/changed to fix various security issues in the applications. 
-	* E.g. when new security vulnerability (CVE) is announced, how a corresponding remediation is applied. 
+	* E.g. when new security vulnerability (CVE) is announced, how the corresponding remediation is applied. 
 * Conduct a study to identify how quick a security fix is done on official docker images.
 * Train a model to recommend fixes for the vulnerabilities detected.
 * Automate the process of creating PRs if a security threat is detected.
@@ -34,7 +34,7 @@ Below is a description of the system components and concepts that will be used t
 
 * Security Vulnerability: A vulnerability is a problem in a project's code that could be exploited to damage the confidentiality, integrity, or availability of the project or other projects that use its code. Depending on the severity level and the way your project uses the dependency, vulnerabilities can cause a range of problems for your project or the people who use it.
 
-* CVE: In order to  to track vulnerabilities in packages, CVEs can be used. MITRE's [Common Vulnerabilities and Exposures (CVE) List](https://cve.mitre.org/) is a list of entries - each containing an identification number, a description, and at least one public reference, for publicly known cybersecurity vulnerabilities.
+* CVE: In order to track vulnerabilities in packages, CVEs can be used. MITRE's [Common Vulnerabilities and Exposures (CVE) List](https://cve.mitre.org/) is a list of entries - each containing an identification number, a description, and at least one public reference, for publicly known cybersecurity vulnerabilities.
 
 * Docker: Docker is a set of platform-as-a-service products that use OS-level virtualization to deliver software in packages called containers. Containers are isolated from one another and bundle their own software, libraries and configuration files; they can communicate with each other through well-defined channels.
 
@@ -47,9 +47,9 @@ Below is a description of the system components and concepts that will be used t
 ### Global Architectural Structure
 
 The development process will involve a set of manual tasks initially which, upon completion, will be repeated over a larger set of images and repositories, using automation. Overview for the process is sequential and as follows:
-* Choose 20 official dockers images from DockerHub, and obtain list of URLs to their respective GitHub repositories.
+* Choose 20 official dockers images from DockerHub, and obtain the list of URLs to their respective GitHub repositories.
 * For each repository, get the commit history, which will be a list of metadata corresponding to each commit.
-* For each commit in this commit history, identify if the commit involved change in the dockerfile. We only filter out such commits into another list of commits.
+* For each commit in this commit history, identify if the commit involved a change in the Dockerfile. We only filter out such commits into another list of commits.
 * For each such commit from the filtered list, build the image of the project at that commit instance and input this container image to Clair tool.
 * Clair gives back a report of security vulnerabilities identified for each input image. Store these reports in a database.
 * Compare reports of 2 consecutive commit images (consecutive in terms of timestamp), and identify if any security threat was remediated amongst these commits.
@@ -101,3 +101,4 @@ __Week 10-11__
 * Provide suggestions for security vulnerabilities identified in the repository using the remediations identified
 
 ____________
+
