@@ -6,7 +6,7 @@ It is important to understand the pattern in which various security issues are f
 Understanding this pattern is going to be useful to drive the automated remediations for similar security fixes in future. The goal of the project is to come up with a solution to scan the official images on DockerHub for potential security vulnerabilities and study them in order to train a model to detect such vulnerabilities and provide recommendations on fixing them. 
 
 The base goals are:
-* Trace various build manifests (Dockerfile, requirement.txt, Makefile, etc.) for official docker images from their respective github repositories 
+* Trace various build manifests (Dockerfile, requirement.txt, Makefile, etc.) for official docker images from their respective GitHub repositories 
 * Trace how their build manifests have evolved/changed to fix various security issues in the applications. 
 	* E.g. when new security vulnerability (CVE) is announced, how a corresponding remediation is applied. 
 * Conduct a study to identify how quick a security fix is done on official docker images.
@@ -17,20 +17,14 @@ The base goals are:
 
 The key users of this product will be any admin or team that is responsible for publishing a docker image. 
 It can also be individual software developers contributing to projects containing makefiles on github.
-The product won’t  be applicable to users who expect to be alerted regarding security vulnerabilities in their source code.
 
 ## Scope and features of the project:
-The scope of the project is a subset of official docker images published on DockerHub. 
-One of the stretch goals will be the automatic remediation of the security threats by creating a PR with the fix to the repo.
-If there are multiple fixes for a security threat, then analyzing the docker image and determining the fix which better matches the project.
-The product won’t consider security vulnerabilities in the source code.
 
-### Features:
-* Identifies changes made in a commit and tag them as a security threat or a feature addition.
-* Demonstrates how a security threat is fixed in a particular commit.
-* Identifies what are the trends followed by developer while fixing these vulnerabilities.
-* Proves why shift-left paradigm is better
-* Outputs a visualization on the various metrics learned while performing the study (TBD).
+* Identify fixes: Analyze a subset of the official docker images published on DockerHub and identify security vulnerabilities fixed as a result of changes in Dockerfile.
+* Tag commits: Identify changes made in a commit and tag them as a security threat remediation or feature addition.
+* Analyze trends: Create a report contains information regarding the speed at which an identified security threat is fixed in the official Docker Images.
+* Automatic remediation: A stretch goal of the project is the automatic remediation when the security vulnerability is identified in a GitHub repository. This could automatic creation of a Pull Request containing the fix for the security threat or providing feedback in the repository with suggestions about the fixes.
+* Choose a fix: Analyze the repository and providing a fix which better suits the project (When there are multiple fixes for a security threat).
 
 ## Solution Concept:
 
@@ -55,12 +49,14 @@ The product won’t consider security vulnerabilities in the source code.
 
 ## Acceptance Criteria
 
-The project can be deemed successful if
+The project is deemed successful if
 
-* it provides a successful study on how to detect security threats and learn how quickly these vulnerabilities are resolved.
-* a machine learning model is trained to provide recommendations
+* it provides a successful study on how quickly security vulnerabilities are resolved in official docker images.
+* a corpus of fixes associated with identified security threats which can be used for automatic remediation
 
-A stretch goal will be to automate the process of fixing the vulnerabilities and creating a PR for the fix.
+Stretch goals:
+* Automate the process of fixing the vulnerabilities and creating a PR for the fix
+* A machine learning model to provide recommendations to the developer about the fix
 
 ## Release Planning:	
 
@@ -95,4 +91,5 @@ __Week 10-11__
 
 * Create a script to fetch the latest commit for a Github repository, build the docker image and use Claire to identify security threats
 * Provide suggestions for security vulnerabilities identified in the repository using the remediations identified
+
 ____________
