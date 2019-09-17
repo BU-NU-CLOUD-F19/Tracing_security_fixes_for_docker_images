@@ -28,31 +28,36 @@ It can also be individual software developers contributing to projects containin
 
 ## Solution Concept:
 
-* CVE
-* Clair
-* Choose 20 official docker images from Dockerhub from their respective GitHub repositories, retrieve history of commits and manually see all the differences made to the makefiles. 
-* Do creation of container image of past in present and feed to Clair to store list of features for that version of image.
-* Verify the differences between this image and the base image. Only concerned about security issues.
-* Automate the above steps using scripts for more official docker images
-* Analyse the trends for remediation used by developers to fix these security issues.
+Below is a description of the system components that will be used to accomplish our goals:
 
-### Process
+* Security Vulnerability: A vulnerability is a problem in a project's code that could be exploited to damage the confidentiality, integrity, or availability of the project or other projects that use its code. Depending on the severity level and the way your project uses the dependency, vulnerabilities can cause a range of problems for your project or the people who use it.
 
-* List of github repos of official images.
+* CVE: In order to  to track vulnerabilities in packages, CVEs can be used. MITRE's [Common Vulnerabilities and Exposures (CVE) List](https://cve.mitre.org/) is a list of entries - each containing an identification number, a description, and at least one public reference, for publicly known cybersecurity vulnerabilities.
+
+* Docker: Docker is a set of platform-as-a-service products that use OS-level virtualization to deliver software in packages called containers. Containers are isolated from one another and bundle their own software, libraries and configuration files; they can communicate with each other through well-defined channels.
+
+* Docker Hub: [Docker Hub](https://docs.docker.com/docker-hub/) is a service provided by Docker for finding and sharing container images with your team. 
+
+* Dockerfile: Docker can build images automatically by reading the instructions from a Dockerfile. A Dockerfile is a text document that contains all the commands a user could call on the command line to assemble an image. Using docker build users can create an automated build that executes several command-line instructions in succession.
+
+* Clair:  [Clair](https://github.com/coreos/clair) is an open-source container vulnerability scanner recently released by CoreOs. The tool cross-checks if a Docker image's operating system and any of its installed packages match any known insecure package versions. The vulnerabilities are fetched from OS-specific common vulnerabilities and exposures (CVE) databases.
+
+### Development Process
+
+* Fetch the list of github repos of official images.
 * For each repo, get commit history,
 * For each commit in commit history, identify if change in docker file
 * For each such commit, build image for that commit and input this container image to clair
 * Clair gives back a report of security vulnerabilities identified for each image
 * Compare reports of 2 consecutive commit images, and identify if any security threat was remediated.
-* Trace back these reports to the actual commits and do git diff to see line changes made in docker file. * * Also, keep track of timestamp between the commit it was fixed, and the time it was published in CVE (to verify how fast it was fixed).
+* Trace back these reports to the actual commits and do git diff to see line changes made in docker file. 
+ 	* Also, keep track of timestamp between the commit it was fixed, and the time it was published in CVE (to verify how fast it was fixed).
 * Associate the change made with the security vulnerability resolved so that it can be useful for future comparisons.
 
 ## Acceptance Criteria
 
-The project is deemed successful if
-
-* it provides a successful study on how quickly security vulnerabilities are resolved in official docker images.
-* a corpus of fixes associated with identified security threats which can be used for automatic remediation
+* Provides a successful study on how quickly security vulnerabilities are resolved in official docker images.
+* Corpus of fixes associated with identified security threats which can be used for automatic remediation
 
 Stretch goals:
 * Automate the process of fixing the vulnerabilities and creating a PR for the fix
