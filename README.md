@@ -16,7 +16,7 @@ The base goals are:
 ## Users and Personas
 
 The key users of this product will be any admin or team that is responsible for publishing a docker image. 
-It can also be individual software developers contributing to projects containing makefiles on github.
+It can also be individual software developers contributing to projects containing manifests on github.
 
 ## Scope and features of the project:
 
@@ -49,11 +49,11 @@ Below is a description of the system components and concepts that will be used t
 The development process will involve a set of manual tasks initially which, upon completion, will be repeated over a larger set of images and repositories, using automation. Overview for the process is sequential and as follows:
 * Choose 20 official dockers images from DockerHub, and obtain list of URLs to their respective GitHub repositories.
 * For each repository, get the commit history, which will be a list of metadata corresponding to each commit.
-* For each commit in this commit history, identify if the commit involved change in the makefile (docker file). We only filter out such commits into another list of commits.
+* For each commit in this commit history, identify if the commit involved change in the dockerfile. We only filter out such commits into another list of commits.
 * For each such commit from the filtered list, build the image of the project at that commit instance and input this container image to Clair tool.
 * Clair gives back a report of security vulnerabilities identified for each input image. Store these reports in a database.
 * Compare reports of 2 consecutive commit images (consecutive in terms of timestamp), and identify if any security threat was remediated amongst these commits.
-* Trace back these reports to the actual commits and run 'git diff' command to see line changes made in docker file. This will help us realise what type of fix this was.
+* Trace back these reports to the actual commits and run 'git diff' command to see line changes made in dockerfile. This will help us realise what type of fix this was.
 * Also, keep track of timestamp between the commit it was fixed, and the time it was published in CVE (to verify how fast it was fixed).
 * Associate the change made with the security vulnerability resolved so that it can be useful for future comparisons and resourceful insights.
 
