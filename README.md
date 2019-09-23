@@ -11,20 +11,25 @@ The base goals are:
 	* E.g. when new security vulnerability (CVE) is announced, how the corresponding remediation is applied. 
 * Conduct a study to identify how quick a security fix is done on official docker images.
 * Train a model to recommend fixes for the vulnerabilities detected.
-* Automate the process of creating PRs if a security threat is detected.
+* Automate the process of creating PRs in the user's repository, if a security threat is detected.
 
 ## Users and Personas
 
-The key users of this product will be any admin or team that is responsible for publishing a docker image. 
-It can also be individual software developers contributing to projects containing manifests on github.
+The key end-users of this tool will be an admin or team that is responsible for publishing a docker image.
+It can also be individual software developers contributing to projects containing manifests on GitHub.
+The tool can be used to identify the security threats associated with a repository. They can configure the tool to their repository so that the security fixes for the identified vulnerabilities can be suggested.
 
 ## Scope and features of the project:
 
-* Identify fixes: Analyze a subset of the official docker images published on DockerHub and identify security vulnerabilities fixed as a result of changes in Dockerfile.
-* Tag commits: Identify changes made in a commit and tag them as a security threat remediation or feature addition.
-* Analyze trends: Create a report contains information regarding the speed at which an identified security threat is fixed in the official Docker Images.
-* Automatic remediation: A stretch goal of the project is the automatic remediation when the security vulnerability is identified in a GitHub repository. This could automatic creation of a Pull Request containing the fix for the security threat or providing feedback in the repository with suggestions about the fixes.
-* Choose a fix: Analyze the repository and providing a fix which better suits the project (When there are multiple fixes for a security threat).
+This project has two parts in it. The first is the analysis of fixes to security threats in a subset of projects. The second part is a tool capable of mitigating security threats by providing suggestions based on the analysis done in the previous step.
+* Analysis tool features:
+	* Identify fixes: Analyze a subset of the official docker images published on DockerHub and identify security vulnerabilities fixed as a result of changes in Dockerfile.
+	* Tag commits: Identify changes made in a commit and tag them as a security threat remediation or feature addition.
+	* Analyze trends: Create a report contains information regarding the speed at which an identified security threat is fixed in the official Docker Images.
+
+* Automatic remediation tool features:
+	* Automatic remediation: A stretch goal of the project is the automatic remediation when the security vulnerability is identified in a GitHub repository. This could include automatic creation of a Pull Request to the repository for which the tool is run, containing the fix for the security threat or providing feedback in the repository with suggestions about the fixes.
+	* Choose a fix: Analyze the repository and providing a fix which better suits the project (When there are multiple fixes for a security threat).
 
 ## Solution Concept:
 
@@ -38,7 +43,7 @@ Below is a description of the system components and concepts that will be used t
 
 * Docker: Docker is a set of platform-as-a-service products that use OS-level virtualization to deliver software in packages called containers. Containers are isolated from one another and bundle their own software, libraries and configuration files; they can communicate with each other through well-defined channels.
 
-* Docker Hub: [Docker Hub](https://docs.docker.com/docker-hub/) is a service provided by Docker for finding and sharing container images with your team. 
+* Docker Hub: [Docker Hub](https://docs.docker.com/docker-hub/) is a service provided by Docker for finding and sharing container images with your team. It is a registry of Docker images. You can think of the registry as a directory of all available Docker images. If required, one can host their own Docker registries and can use them for pulling images.
 
 * Dockerfile: Docker can build images automatically by reading the instructions from a Dockerfile. A Dockerfile is a text document that contains all the commands a user could call on the command line to assemble an image. Using docker build users can create an automated build that executes several command-line instructions in succession.
 
@@ -46,14 +51,14 @@ Below is a description of the system components and concepts that will be used t
 
 ### Global Architectural Structure
 
-The development process will involve a set of manual tasks initially which, upon completion, will be repeated over a larger set of images and repositories, using automation. Overview for the process is sequential and as follows:
-* Choose 20 official dockers images from DockerHub, and obtain the list of URLs to their respective GitHub repositories.
+The development process will involve a set of manual tasks initially which, upon completion, will be repeated over a larger set of images and repositories, using automation. All the scripts are a part of a Python project which will be containerized using a docker image. Overview for the process is sequential and as follows:
+* Choose 20 official dockers images from DockerHub, and obtain the list of URLs to their respective GitHub repositories. Make sure that the images have been built from repositories hosted on GitHub.
 * For each repository, get the commit history, which will be a list of metadata corresponding to each commit.
 * For each commit in this commit history, identify if the commit involved a change in the Dockerfile. We only filter out such commits into another list of commits.
 * For each such commit from the filtered list, build the image of the project at that commit instance and input this container image to Clair tool.
 * Clair gives back a report of security vulnerabilities identified for each input image. Store these reports in a database.
 * Compare reports of 2 consecutive commit images (consecutive in terms of timestamp), and identify if any security threat was remediated amongst these commits.
-* Trace back these reports to the actual commits and run 'git diff' command to see line changes made in dockerfile. This will help us realise what type of fix this was.
+* Traceback these reports to the actual commits and run 'git diff' command to see line changes made in Dockerfile. This will help us realise what type of fix this was.
 * Also, keep track of timestamp between the commit it was fixed, and the time it was published in CVE (to verify how fast it was fixed).
 * Associate the change made with the security vulnerability resolved so that it can be useful for future comparisons and resourceful insights.
 
