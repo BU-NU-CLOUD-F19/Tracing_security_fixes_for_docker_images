@@ -1,0 +1,12 @@
+# Distribution / packaging
+.Python
+build/
+
+# pyenv
+.python-version
+.env
+
+# OS specific
+.DS_Store
+*.DS_Store
+
