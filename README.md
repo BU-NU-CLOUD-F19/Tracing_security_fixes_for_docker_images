@@ -105,5 +105,8 @@ __Week 10-11__
 * Create a script to fetch the latest commit for a Github repository, build the docker image and use Claire to identify security threats
 * Provide suggestions for security vulnerabilities identified in the repository using the remediations identified
 
+## Presentations
+
+* [Sprint 1](https://docs.google.com/presentation/d/1u_rIKK8wvnD7Xvt3UBjcM73yTEVpwdkq6YXQhtvllKQ/edit#slide=id.gc6fa3c898_0_0)
 ____________
 

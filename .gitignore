@@ -1,0 +1,13 @@
+# Distribution / packaging
+.Python
+build/
+
+# pyenv
+.python-version
+.env
+.ipynb_checkpoints/
+
+# OS specific
+.DS_Store
+*.DS_Store
+
