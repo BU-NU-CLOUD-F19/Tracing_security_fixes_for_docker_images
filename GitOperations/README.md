@@ -34,3 +34,13 @@ Options:
 ```
 __________
 
+## Running it in a docker container
+Build the container by running the command :
+```
+Docker build -t gitoperations .
+```
+Run the container which will start the fetch_commit.py script :
+```
+docker run -p  80:80 gitoperations --username ‘username’ --password ‘password’ --organization docker-library --repository python
+```
+ 
