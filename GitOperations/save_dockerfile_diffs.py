@@ -24,11 +24,12 @@ def fetch_commits_for_dockerfile(dockerfile, repo):
 	dockerfile_commit = {}
 	commits = repo.get_commits(path=dockerfile.path)
 	for commit in commits:
-		dockerfile_commit['commit_sha'] = commit.sha
-		dockerfile_commit['author'] = commit.author.name if commit.author.name else "docker-library-bot"
-		dockerfile_commit['last_modified'] = commit.last_modified
 		for file in commit.files:
 			if file.filename == dockerfile.path:
+				dockerfile_commit['commit_message'] = commit.raw_data['commit']['message']
+				dockerfile_commit['commit_sha'] = commit.sha
+				dockerfile_commit['author'] = commit.author.name if commit.author.name else "docker-library-bot"
+				dockerfile_commit['last_modified'] = commit.last_modified
 				dockerfile_commit['patch'] = file.patch
 		dockerfile_commits.append(dockerfile_commit)
 	return dockerfile_commits
@@ -57,34 +58,32 @@ def fetch_dockerfiles(username, password, organization, repository):
 
 	# Fetch all dockerfiles in the repo
 	dockerfiles = add_dockerfiles(dockerfiles, repo, repo.get_contents(''))
-
-	# Fetch commits info for each dockerfile
-	dockerfiles_info = []
-	id = 0
-	for dockerfile in tqdm(dockerfiles, desc="Dockerfiles", position=1):
-		commits_info = fetch_commits_for_dockerfile(dockerfile, repo)
-		for commit_info in tqdm(commits_info, desc="commits", position=2):
-			#commit_info['_id'] = id
-			commit_info['dockerfile'] = dockerfile.path
-			dockerfiles_info.append(commit_info)
-			id = id + 1
-
-		# print(dockerfile)
-		# pprint(commits_info)
-		# print("\n\n")
-
-	print(id)
-
 	client = pymongo.MongoClient('mongodb://localhost:27017/')
 	db_list = client.list_database_names()
 	mydb = client['security_fixes_db']
 	mycol = mydb['dockerfile_commits']
-	for info in dockerfiles_info:
-		try:
-			inserted = mycol.insert_one(info)
-			print(inserted)
-		except pymongo.errors.DuplicateKeyError:
-			continue
+
+
+	## Fetch commits info for each dockerfile
+	# dockerfiles_info = []
+	no_rows = 0
+	for dockerfile in tqdm(dockerfiles, desc="Dockerfiles", position=1):
+		commits_info = fetch_commits_for_dockerfile(dockerfile, repo)
+		for commit_info in tqdm(commits_info, desc="commits", position=2):
+			commit_info['dockerfile'] = dockerfile.path
+			try:
+				inserted = mycol.insert_one(commit_info)
+				print(inserted)
+			except pymongo.errors.DuplicateKeyError:
+				print(commit_info['commit_message'])
+				continue
+			#dockerfiles_info.append(commit_info)
+			no_rows = no_rows + 1
+		# print(dockerfile)
+		# pprint(commits_info)
+		# print("\n\n")
+
+	print("Wrote", no_rows, "rows to the database")
 
 if __name__ == '__main__':
     fetch_dockerfiles()
