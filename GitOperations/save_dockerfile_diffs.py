@@ -36,10 +36,10 @@ def fetch_commits_for_dockerfile(dockerfile, repo):
 
 @click.command()
 @click.option('--username', prompt='User:', help='Your GitHub username.')
-@click.option('--password', help='Your GitHub password.')
-@click.option('--organization', help='Target GitHub organization.')
-@click.option('--repository', help='Target GitHub repository under the given organization.')
-def fetch_dockerfiles(username, password, organization, repository):
+@click.option('--password', prompt=True, hide_input=True, help='Your GitHub password.')
+@click.option('--org', help='Target GitHub organization.')
+@click.option('--repo', help='Target GitHub repository under the given organization.')
+def fetch_dockerfiles(username, password, org, repo):
 	"""
 	Simple program that fetches commits from a master branch for a particular repository.
 	"""
@@ -48,21 +48,23 @@ def fetch_dockerfiles(username, password, organization, repository):
 	g = Github(username, password)
 
 	# Retrieve the given organization
-	org = g.get_organization(organization)
+	org = g.get_organization(org)
 
 	# Retrieve the repository under the given organization
-	repo = org.get_repo(repository)
+	repo = org.get_repo(repo)
+	print("Accessing", repo)
 
 	## List of Dockerfiles to be tracked
 	dockerfiles = []
-
 	# Fetch all dockerfiles in the repo
 	dockerfiles = add_dockerfiles(dockerfiles, repo, repo.get_contents(''))
+	print("Fetched", len(dockerfiles), "dockerfiles")
+
+	# Connect to the MongoDB
 	client = pymongo.MongoClient('mongodb://localhost:27017/')
 	db_list = client.list_database_names()
 	mydb = client['security_fixes_db']
 	mycol = mydb['dockerfile_commits']
-
 
 	## Fetch commits info for each dockerfile
 	# dockerfiles_info = []
