@@ -1,6 +1,7 @@
 # Distribution / packaging
 .Python
 build/
+.idea
 
 # pyenv
 .python-version
