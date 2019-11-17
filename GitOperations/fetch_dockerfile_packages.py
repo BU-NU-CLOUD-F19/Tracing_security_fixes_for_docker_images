@@ -5,6 +5,8 @@ from pprint import pprint
 from tqdm import tqdm
 from collections import defaultdict
 import string
+import urllib
+from bs4 import BeautifulSoup
 
 def get_dockerfiles(dockerfiles, repo, repo_contents, return_first=False):
 	"""
@@ -77,6 +79,35 @@ def fetch_packages_for_dockerfile(dockerfile):
 	            packages = packages + line.split()
 
 	return ','.join(packages)
+
+def get_version_date(os, package, package_version):
+	"""
+	Get the date for when a particular version of the package was published
+	"""
+	if os == "ubuntu":
+		url = "https://launchpad.net/ubuntu/+source/"+package+"/+publishinghistory"
+	elif os ==  "debian":
+		url = "https://launchpad.net/debian/+source/"+package+"/+publishinghistory"
+	request = urllib.request.urlopen(url)
+	html_doc = request.read().decode('utf-8')
+	soup = BeautifulSoup(html_doc, 'html.parser')
+	data_table_rows = soup.find("table", attrs={"class": "listing"}).find("tbody").find_all("tr")
+	published_date = ''
+	# For each published version history, check for the version and return published date
+	for row in data_table_rows:
+		cells = row.find_all("td")
+		for cell in cells:
+			cell_version = cell.get_text().strip()	
+			if cell_version == package_version:
+				cell_date = cells[1].get_text()
+				cell_status = cells[2].get_text()
+				if cell_date and cell_status != "Deleted":
+					published_date = cell_date
+					print(published_date)
+					return published_date
+	return published_date
+	
+
 
 
 @click.command()
