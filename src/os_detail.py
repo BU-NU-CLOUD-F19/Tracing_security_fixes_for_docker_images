@@ -6,12 +6,23 @@ from tqdm import tqdm
 
 
 class ScriptRunner:
+    """
+    A class responsible for running a shell script and returning the last but one line printed
+    """
     def __init__(self, script):
+        """
+        :param script: Path of the script to execute
+        """
         self.__script = script
 
-    def run(self, args):
+    def run(self, docker_image):
+        """
+        Runs the script for the given docker image
+        :param docker_image: the docker image which is analysed
+        :return: the OS platform used by the docker image
+        """
         # returns the stdout of the script
-        output = subprocess.check_output([self.__script, args]).decode('utf-8')
+        output = subprocess.check_output([self.__script, docker_image]).decode('utf-8')
         # extract the last but one line printed(which is the OS name)
         return output.split('\n')[-2]
 
