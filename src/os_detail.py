@@ -1,5 +1,7 @@
 # Importing packages
 import subprocess
+import argparse
+
 from tqdm import tqdm
 
 
@@ -14,9 +16,13 @@ class ScriptRunner:
         return output.split('\n')[-2]
 
 
+parser = argparse.ArgumentParser(description='Counts the number of images which rely on each OS')
+parser.add_argument('--images', help='File containing list of images to analyse')
+
+args = parser.parse_args()
 if __name__ == '__main__':
     result = {}
-    image_list = open('image_list.txt', 'r')
+    image_list = open(args.images, 'r')
     script_runner = ScriptRunner('./fetch_os_details.sh')
 
     for image in tqdm(image_list, desc="Images", position=2):
