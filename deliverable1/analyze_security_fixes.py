@@ -2,6 +2,7 @@ from fetch_date_diffs import GithubCli
 from connect_postgres import PostgresOps
 from scrape_vulnerability_timestamps import AnalyzeTimeStamps
 import pandas as pd
+import numpy as np
 import matplotlib.pyplot as plt
 import os
 import click
@@ -99,14 +100,18 @@ def analyze_date_diff(api_key):
 
     day_fixed_df = data[~data['Days_For_Fix'].isnull()]
     plt.figure(figsize=(10, 10))
-    ax = day_fixed_df['Days_For_Fix'][day_fixed_df['OS_base_name'] == 'debian'].plot('hist',
-                                                                                     title="Time for package vulnerability fixes for Debian")
+    df = day_fixed_df['Days_For_Fix'][day_fixed_df['OS_base_name'] == 'debian']
+    ax = df.plot('hist',
+                 weights=np.ones_like(df.index) / len(df.index),
+                 title="Time for package vulnerability fixes for Debian")
     ax.set(xlabel='No of days')
     plt.savefig("outputs/Debian_Vulnerability_Fixes.png")
 
     plt.figure(figsize=(10, 10))
-    ax = day_fixed_df['Days_For_Fix'][day_fixed_df['OS_base_name'] == 'ubuntu'].plot('hist',
-                                                                                     title="Time for package vulnerability fixes for Ubuntu")
+    df = day_fixed_df['Days_For_Fix'][day_fixed_df['OS_base_name'] == 'ubuntu']
+    ax = df.plot('hist',
+                 weights=np.ones_like(df.index) / len(df.index),
+                 title="Time for package vulnerability fixes for Ubuntu")
     ax.set(xlabel='No of days')
     plt.savefig("outputs/Ubuntu_Vulnerability_Fixes.png")
 
