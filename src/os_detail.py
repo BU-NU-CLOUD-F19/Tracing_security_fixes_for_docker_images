@@ -1,6 +1,9 @@
 # Importing packages
 import subprocess
 import argparse
+import matplotlib.pyplot as plt
+import matplotlib.cm as cm
+import csv
 
 from tqdm import tqdm
 
@@ -32,16 +35,45 @@ parser.add_argument('--images', help='File containing list of images to analyse'
 
 args = parser.parse_args()
 if __name__ == '__main__':
-    result = {}
+    results = {}
     image_list = open(args.images, 'r')
     script_runner = ScriptRunner('./fetch_os_details.sh')
 
     for image in tqdm(image_list, desc="Images", position=2):
         os = script_runner.run(image.strip())
-        if os in result:
-            result[os] += 1
+        if os in results:
+            results[os] += 1
         else:
-            result[os] = 1
+            results[os] = 1
 
-    for key, value in result.items():
-        print('{}: {}'.format(key, value))
+    from collections import OrderedDict
+
+    sorted_results = OrderedDict(sorted(results.items(), key=lambda x: x[1], reverse=True))
+
+    labels = []
+    val = []
+    os_list = ["debian", "ubuntu", "alpine", "centos"]
+    colors = ['gold', 'yellowgreen', 'lightcoral', 'lightskyblue']
+
+    total = 0
+    other = 0
+
+    for key, value in sorted_results.items():
+        if key in os_list:
+            other += value
+        else:
+            labels.append(key)
+            val.append(value)
+
+    labels.append("Other")
+    val.append(other)
+
+    # Save plot to file system
+    plt.pie(val, labels=labels, startangle=90, colors=cm.get_cmap('Set3').colors)
+    plt.axis('equal')
+    plt.savefig('os_distribution.png')
+
+    # Save the distribution data to file system
+    w = csv.writer(open("os_distribution.csv", "w"))
+    for key, value in results.items():
+        w.writerow([key, value])
