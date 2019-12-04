@@ -1,0 +1,10 @@
+requests
+beautifulsoup4
+pandas
+matplotlib
+tqdm
+click
+psycopg2
+PyGithub
+datetime
+csv
