@@ -74,8 +74,22 @@ The development process started with a research to identify and gather the requi
 **Step 8:** Using the data obtained in the previous step, aggreate and plot graphs to study about the trends of security fixes in OS packages used by official docker images
 
 #### Observations:
+The results obtained from running the script for deliverable 1 are as follows:
 
-[Fill in observations, include graphs if needed]
+<p align="center">
+  <img src="https://github.com/BU-NU-CLOUD-F19/Tracing_security_fixes_for_docker_images/blob/master/readme_resources/Number_of_vulnerabilities_per_package_in_the_dedup_data.png" alt="workflow">
+</p>
+The `openssl` package consists of the most vulnerabilities out of ~50 packages we analysed followed by `curl` and `binutils`.
+
+<p align="center">
+  <img src="https://github.com/BU-NU-CLOUD-F19/Tracing_security_fixes_for_docker_images/blob/master/readme_resources/Debian_Vulnerability_Fixes.png" alt="workflow">
+</p>
+This histogram shows that close to 70% of the vulnerabilities on Debian packages are fixed withing 250 days of reporting.
+
+<p align="center">
+  <img src="https://github.com/BU-NU-CLOUD-F19/Tracing_security_fixes_for_docker_images/blob/master/readme_resources/Ubuntu_Vulnerability_Fixes.png" alt="workflow">
+</p>
+This histogram shows that close to 50% of the vulnerabilities on Ubuntu packages are fixed withing 100 days of reporting which is quite impressive. Although there are vulnerabilities in both Debian and Ubuntu packages that take 5 years to be resolved, probably due to negligence or due to the less severity of the vulnerability.
 
 ### Deliverable 2: Identify OS distribution
 #### Process:
@@ -96,8 +110,8 @@ The result obtained from running the script over 142 official docker images are:
   <img src="https://github.com/BU-NU-CLOUD-F19/Tracing_security_fixes_for_docker_images/blob/master/readme_resources/os_distribution.JPG" alt="os_distribution">
 </p>
 
- * We identified that Debian, Ubunutu and Alpine are the most commonly used Operating Systems to base the docker images on and an analysis on the packages belonging to these OS packages will provide us with details on security remediations in about 85% of the docker images
- * Alpine being a light-weight OS was expected to be the top choice of Operating System to use but popular to contrary belief we found that more than 50% of the official docker images rely on Debain
+ * We identified that Debian, Ubuntu and Alpine are the most commonly used Operating Systems to base the docker images on and an analysis on the packages belonging to these OS packages will provide us with details on security remediations in about 85% of the docker images
+ * Alpine being a light-weight OS was expected to be the top choice of Operating System to use but popular to contrary belief we found that more than 50% of the official docker images rely on Debian
 
 ## Installation and Deployment:
 
@@ -117,18 +131,39 @@ Individual instructions to run the scripts for each deliverable is:
 
 #### Deliverable 1:
 
+To run the main script of deliverable 1, run the following command:
+
+```
+python3 deliverable1/analyze_security_fixes.py"
+```
+
+The data files are already saved in the output folder in the deliverable1 directory. But if you want to run them from scratch follow the instructions given by the script.
+
+1. "Enter (Y/N) to fetch clair reports:"
+	If you enter 'Y', you'll need to enter the GitHub username and password and the X-Force API Key.
+	This saves a CSV with the clair report details in deliverables1/outputs folder.
+	You can skip this step if you already have the reports stored in the outputs folder by entering 'N'.
+	
+2. "Please enter either Y or N to fetch clair reports:"
+	If you enter 'Y', you'll need to enter the X-Force API Key.
+	This saves the analysis reports as CSVs the graphs in the deliverables1/outputs folder.
+		
+The command-line interface for deliverable looks like this:
+<p align="center">
+  <img src="https://github.com/BU-NU-CLOUD-F19/Tracing_security_fixes_for_docker_images/blob/master/readme_resources/deliverable1_screenshot.png" alt="deliverable1_screenshot">
+</p>
 
 #### Deliverable 2:
 Docker is a requirement for building and running the script for deliverable 2. [Install Docker](https://docs.docker.com/v17.09/engine/installation/)
 
-The script accepts a file containing the list of docker images to analyse. You can choose to create one, or use the files present under the deliverable2/input folder
+The script accepts a file containing the list of docker images to analyse. You can choose to create one, or use the files present under the deliverable2/input folder.
 
 To run the script, 
 
 ```
 python3 deliverable2/analyze_os_distribution.py --images="path_to_image_list"
 ```
-The script saves a CSV and a piechart with details of OS distribution in deliverables2/output folder
+The script saves a CSV and a piechart with details of OS distribution in deliverables2/outputs folder.
 
 ## Presentations
 
