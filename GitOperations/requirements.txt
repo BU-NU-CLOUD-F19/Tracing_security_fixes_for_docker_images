@@ -1,2 +1,7 @@
+pandas
+requests
+tqdm
+beautifulsoup4
+psycopg2
 PyGithub
 click

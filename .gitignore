@@ -1,6 +1,8 @@
 # Distribution / packaging
 .Python
+*.pyc
 build/
+.idea/
 
 # pyenv
 .python-version
@@ -10,4 +12,7 @@ build/
 # OS specific
 .DS_Store
 *.DS_Store
+
+# DB specific
+*.ini
 

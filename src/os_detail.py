@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 import matplotlib.cm as cm
 import csv
 
+from collections import OrderedDict
 from tqdm import tqdm
 
 
@@ -45,8 +46,6 @@ if __name__ == '__main__':
             results[os] += 1
         else:
             results[os] = 1
-
-    from collections import OrderedDict
 
     sorted_results = OrderedDict(sorted(results.items(), key=lambda x: x[1], reverse=True))
 
