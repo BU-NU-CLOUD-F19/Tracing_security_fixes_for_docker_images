@@ -31,9 +31,7 @@ The study consists of two deliverables. The first is an analysis on how quickly 
 * Study on os distribution:
 	* Identify the Operating Systems which official docker images rely on
 
-## Solution Concept:
-
-### System Components:
+## System Components:
 
 Below is a description of the system components and concepts that we used to accomplish our goals:
 
@@ -53,34 +51,59 @@ Below is a description of the system components and concepts that we used to acc
 
 * Ubuntu and Debian Launchpad: [Launchpad](https://launchpad.net) Launchpad is a web application and website that allows users to develop and maintain software, particularly open-source software. It provides API's to access various details about software including publishing history.
 
-### Global Architectural Structure
+## Methodology and Observations:
 
-The development process will involve a set of manual tasks initially which, upon completion, will be repeated over a larger set of images and repositories, using automation. All the scripts are a part of a Python project which will be containerized using a docker image. Overview for the process is sequential and as follows:
-* Choose 20 official dockers images from DockerHub, and obtain the list of URLs to their respective GitHub repositories. Make sure that the images have been built from repositories hosted on GitHub.
-* For each repository, get the commit history, which will be a list of metadata corresponding to each commit.
-* For each commit in this commit history, identify if the commit involved a change in the Dockerfile. We only filter out such commits into another list of commits.
-* For each such commit from the filtered list, build the image of the project at that commit instance and input this container image to Clair tool.
-* Clair gives back a report of security vulnerabilities identified for each input image. Store these reports in a database.
-* Compare reports of 2 consecutive commit images (consecutive in terms of timestamp), and identify if any security threat was remediated amongst these commits.
-* Traceback these reports to the actual commits and run 'git diff' command to see line changes made in Dockerfile. This will help us realise what type of fix this was.
-* Also, keep track of timestamp between the commit it was fixed, and the time it was published in CVE (to verify how fast it was fixed).
-* Associate the change made with the security vulnerability resolved so that it can be useful for future comparisons and resourceful insights.
+The development process started with a research to identify and gather the required data from various sources. Python was selected as the application language due to its support of easy manipulation of data. The deliverables of the projects are available in two different scripts and a user can choose the run a script based on their requirement.
 
-## Acceptance Criteria
+### Deliverable 1: Identify how quickly security issues are fixed in base OS packages
 
-* Provides a successful study on how quickly security vulnerabilities are resolved in official docker images.
-* Corpus of fixes associated with identified security threats which can be used for automatic remediation
+#### Process: 
+[Photo will go here]
 
-Stretch goals:
-* Automate the process of fixing the vulnerabilities and creating a PR for the fix
-* A machine learning model to provide recommendations to the developer about the fix
+**Step 1:** Identify docker images of interest and gather the project's source repository (which contains the dockerfiles) of these images
+
+**Step 2:** Parse the individual dockerfiles to obtain a list of OS packages which are installed in it
+
+**Step 3:** Deduplicate the packages obtained so that if a package is installed by multiple docker images, then the analysis of security fixes on the package is performed only once
+
+**Step 4:** Query Clair's postgres database to obtain the vulnerabilities which are identified and the release versions which fixed the identified vulnerabilities in each of these packages
+
+**Step 5:** Query X-Force to obtain the date in which each security vulnerability was reported
+
+**Step 6:** Query Ubuntu's or Debian's launchpad to identify when the version of the package which fixed a particular security vulnerability was released
+
+**Step 7:** The duration of a security threat is the number of days which have elapsed from the date a security vulnerabilty was reported (obtained from step 5) and when a fix was released (obtained from step 6). Compute the difference in these dates to obtain the number of days it took to fix a security threat
+
+**Step 8:** Using the data obtained in the previous step, aggreate and plot graphs to study about the trends of security fixes in OS packages used by official docker images
+
+#### Observations:
+
+[Fill in observations, include graphs if needed]
+
+### Deliverable 2: Identify OS distribution
+#### Process:
+
+**Step 1:** Identify docker images of interest and gather the docker image names and tags
+
+**Step 2:** Pull each docker image and run the image in a container
+
+**Step 3:** Export the source files used by the docker image in a specified location using the docker export command
+
+**Step 4:** Identify the OS which the docker image relies on using the os-release file in the etc folder
+
+**Step 5:** Aggregate data across multiple docker images and plot a chart to visualize the OS distribution
+
+#### Observations:
+ * We identified that Debian, Ubunutu and Alpine are the most commonly used Operating Systems to base the docker images on and an analysis on the packages belonging to these OS packages will provide us with details on security remediations in about 85% of the docker images
+ * Alpine being a light-weight OS was expected to be the top choice of Operating System to use but popular to contrary belief we found that more than 50% of the official docker images rely on Debain
 
 ## Presentations
 
-* [Sprint 1](https://docs.google.com/presentation/d/1u_rIKK8wvnD7Xvt3UBjcM73yTEVpwdkq6YXQhtvllKQ/edit#slide=id.gc6fa3c898_0_0)
-* [Sprint 2](https://docs.google.com/presentation/d/1g8OgQm3UC-3eg0PtpMjehUXxjZoMXTra6UJSPKpe8sg/edit#slide=id.g6326875e59_2_14)
-* [Sprint 3](https://docs.google.com/presentation/d/1nO3L1yo2AQMYrWhZjRftRH6G1ljoQjPp54FURNxAFJ8/edit?usp=sharing)
-* [Sprint 4](https://docs.google.com/presentation/d/138kz-S86585wOn3MGHJQFPMt40wDxpc5-HM6qvw6NRQ/edit?ts=5dc48c1c#slide=id.gc6f980f91_0_42)
-* [Sprint 5](https://docs.google.com/presentation/d/1AK94dqiRsv9oadfjd2UsOvm9WsR1RbAyVLnNqvT9lOY/edit?ts=5dd5c132#slide=id.g758161e409_0_130)
+* [Sprint 1](https://docs.google.com/presentation/d/1u_rIKK8wvnD7Xvt3UBjcM73yTEVpwdkq6YXQhtvllKQ)
+* [Sprint 2](https://docs.google.com/presentation/d/1g8OgQm3UC-3eg0PtpMjehUXxjZoMXTra6UJSPKpe8sg)
+* [Sprint 3](https://docs.google.com/presentation/d/1nO3L1yo2AQMYrWhZjRftRH6G1ljoQjPp54FURNxAFJ8)
+* [Sprint 4](https://docs.google.com/presentation/d/138kz-S86585wOn3MGHJQFPMt40wDxpc5-HM6qvw6NRQ)
+* [Sprint 5](https://docs.google.com/presentation/d/1AK94dqiRsv9oadfjd2UsOvm9WsR1RbAyVLnNqvT9lOY)
+* [Final](https://docs.google.com/presentation/d/1reov-Rw80hjlXjbuajsBP3rjXAhRqoLQ9E2BKuOR-j0)
 ____________
 
