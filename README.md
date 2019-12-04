@@ -53,7 +53,9 @@ The development process started with a research to identify and gather the requi
 ### Deliverable 1: Identify how quickly security issues are fixed in base OS packages
 
 #### Process: 
-[Photo will go here]
+<p align="center">
+  <img src="https://github.com/BU-NU-CLOUD-F19/Tracing_security_fixes_for_docker_images/blob/master/readme_resources/workflow.JPG" alt="workflow">
+</p>
 
 **Step 1:** Identify docker images of interest and gather the project's source repository (which contains the dockerfiles) of these images
 
@@ -90,7 +92,9 @@ The development process started with a research to identify and gather the requi
 
 #### Observations:
 The result obtained from running the script over 142 official docker images are:
-![os_distribution](https://github.com/BU-NU-CLOUD-F19/Tracing_security_fixes_for_docker_images/blob/master/readme_resources/os_distribution.JPG)
+<p align="center">
+  <img src="https://github.com/BU-NU-CLOUD-F19/Tracing_security_fixes_for_docker_images/blob/master/readme_resources/os_distribution.JPG" alt="os_distribution">
+</p>
 
  * We identified that Debian, Ubunutu and Alpine are the most commonly used Operating Systems to base the docker images on and an analysis on the packages belonging to these OS packages will provide us with details on security remediations in about 85% of the docker images
  * Alpine being a light-weight OS was expected to be the top choice of Operating System to use but popular to contrary belief we found that more than 50% of the official docker images rely on Debain
