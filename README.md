@@ -166,7 +166,7 @@ To run the script,
 python3 deliverable2/analyze_os_distribution.py --images="path_to_image_list"
 ```
 The script saves a CSV and a piechart with details of OS distribution in deliverables2/outputs folder.
-
+____________
 ## Presentations
 
 * [Sprint 1](https://docs.google.com/presentation/d/1u_rIKK8wvnD7Xvt3UBjcM73yTEVpwdkq6YXQhtvllKQ)
@@ -174,6 +174,8 @@ The script saves a CSV and a piechart with details of OS distribution in deliver
 * [Sprint 3](https://docs.google.com/presentation/d/1nO3L1yo2AQMYrWhZjRftRH6G1ljoQjPp54FURNxAFJ8)
 * [Sprint 4](https://docs.google.com/presentation/d/138kz-S86585wOn3MGHJQFPMt40wDxpc5-HM6qvw6NRQ)
 * [Sprint 5](https://docs.google.com/presentation/d/1AK94dqiRsv9oadfjd2UsOvm9WsR1RbAyVLnNqvT9lOY)
-* [Final](https://docs.google.com/presentation/d/1reov-Rw80hjlXjbuajsBP3rjXAhRqoLQ9E2BKuOR-j0)
+* [Final Presentation](https://docs.google.com/presentation/d/1reov-Rw80hjlXjbuajsBP3rjXAhRqoLQ9E2BKuOR-j0)
 ____________
+## Video Presentation
 
+* [Final Project Demo](https://www.youtube.com/watch?v=wfNr2roCKlk&feature=youtu.be)
