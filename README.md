@@ -1,41 +1,41 @@
 # Tracing security fixes for docker images
 
+## Installation and Deployment:
+#### Deliverable 1:
+
+#### Deliverable 2:
+
 ## Vision and Goals of the Project:
 
 It is important to understand the pattern in which various security issues are fixed in the real world. 
-Understanding this pattern is going to be useful to drive the automated remediations for similar security fixes in future. The goal of the project is to come up with a solution to scan the official images on DockerHub for potential security vulnerabilities and study them in order to train a model to detect such vulnerabilities and provide recommendations on fixing them. 
+Understanding this pattern is going to be useful to drive the automated remediations for similar security fixes in future. The goal of the project is to conduct a study on identifying how quickly OS package managers release patches to fix identified security threats. This will provide an oppertunity for developers to choose the OS and the OS packages which are less prone to security vulnerabilities or ones which are quick to rectify them. Developers can use the results of the study to identify which OS packages better conform to their security standards.
 
 The base goals are:
-* Trace various build manifests (Dockerfile, requirement.txt, Makefile, etc.) for official docker images from their respective GitHub repositories 
-* Trace how their build manifests have evolved/changed to fix various security issues in the applications. 
-	* E.g. when new security vulnerability (CVE) is announced, how the corresponding remediation is applied. 
-* Conduct a study to identify how quick a security fix is done on official docker images.
-* Train a model to recommend fixes for the vulnerabilities detected.
-* Automate the process of creating PRs in the user's repository, if a security threat is detected.
+* Trace Dockerfile for official docker images from their respective GitHub repositories and trace how quickly OS packages they rely on have addressed the secuirty vulnerabilities in them
+	* E.g. when new security vulnerability (CVE) is announced, how soon a release with the corresponding remediation is available. 
+* Conduct a study to identify the most common OS which docker images rely on
 
 ## Users and Personas
 
-The key end-users of this tool will be an admin or team that is responsible for publishing a docker image.
-It can also be individual software developers contributing to projects containing manifests on GitHub.
-The tool can be used to identify the security threats associated with a repository. They can configure the tool to their repository so that the security fixes for the identified vulnerabilities can be suggested.
+The key end-user of the study will be developers so that they can identify package publishers who are proactive towards fixing security threats
+Developers and security analysts can use the results of the study to identify packages that are updated quickly and are reliable in terms of fixing any security vulnerability quickly. It can help decide the course of action while deciding two packages that have the same functionality
+Developers can also use the tool to identify common OS distributions used by official docker images
+Researches can further the study by incorporating the publishing history of OS distributions not targetted by this study (like Alpine, Centos, etc) to provide a single source of truth for developers to use while identifying potential packages to use
 
 ## Scope and features of the project:
 
-This project has two parts in it. The first is the analysis of fixes to security threats in a subset of projects. The second part is a tool capable of mitigating security threats by providing suggestions based on the analysis done in the previous step.
-* Analysis tool features:
-	* Identify fixes: Analyze a subset of the official docker images published on DockerHub and identify security vulnerabilities fixed as a result of changes in Dockerfile.
-	* Tag commits: Identify changes made in a commit and tag them as a security threat remediation or feature addition.
-	* Analyze trends: Create a report contains information regarding the speed at which an identified security threat is fixed in the official Docker Images.
+The study consists of two deliverables. The first is an analysis on how quickly security vulnerabilities are fixed in OS packages identified by their use in offical docker images. The second part is the identification of OS distribution the official docker images rely on.
+* Study on security fixes on OS packages:
+	* Analyze a subset of the official docker images published on DockerHub and identify security vulnerabilities fixed in the OS packages they use and generate a report containing information regarding the speed at which an identified security threat is fixed.
 
-* Automatic remediation tool features:
-	* Automatic remediation: A stretch goal of the project is the automatic remediation when the security vulnerability is identified in a GitHub repository. This could include automatic creation of a Pull Request to the repository for which the tool is run, containing the fix for the security threat or providing feedback in the repository with suggestions about the fixes.
-	* Choose a fix: Analyze the repository and providing a fix which better suits the project (When there are multiple fixes for a security threat).
+* Study on os distribution:
+	* Identify the Operating Systems which official docker images rely on
 
 ## Solution Concept:
 
 ### System Components:
 
-Below is a description of the system components and concepts that will be used to accomplish our goals:
+Below is a description of the system components and concepts that we used to accomplish our goals:
 
 * Security Vulnerability: A vulnerability is a problem in a project's code that could be exploited to damage the confidentiality, integrity, or availability of the project or other projects that use its code. Depending on the severity level and the way your project uses the dependency, vulnerabilities can cause a range of problems for your project or the people who use it.
 
@@ -48,6 +48,10 @@ Below is a description of the system components and concepts that will be used t
 * Dockerfile: Docker can build images automatically by reading the instructions from a Dockerfile. A Dockerfile is a text document that contains all the commands a user could call on the command line to assemble an image. Using docker build users can create an automated build that executes several command-line instructions in succession.
 
 * Clair:  [Clair](https://github.com/coreos/clair) is an open-source container vulnerability scanner recently released by CoreOs. The tool cross-checks if a Docker image's operating system and any of its installed packages match any known insecure package versions. The vulnerabilities are fetched from OS-specific common vulnerabilities and exposures (CVE) databases.
+
+* X-Force: [X-Force](https://www.ibm.com/security/services/ibm-x-force-incident-response-and-intelligence) is a cloud-based threat intelligence platform that allows you to consume, share and act on threat intelligence. It enables you to rapidly research the latest global security threats, aggregate actionable intelligence, consult with experts and collaborate with peers.
+
+* Ubuntu and Debian Launchpad: [Launchpad](https://launchpad.net) Launchpad is a web application and website that allows users to develop and maintain software, particularly open-source software. It provides API's to access various details about software including publishing history.
 
 ### Global Architectural Structure
 
@@ -70,40 +74,6 @@ The development process will involve a set of manual tasks initially which, upon
 Stretch goals:
 * Automate the process of fixing the vulnerabilities and creating a PR for the fix
 * A machine learning model to provide recommendations to the developer about the fix
-
-## Release Planning:	
-
-__Week 1-2__
-
-* Literature study - Understand Dockerfiles, Clair tool requirements, Shift-left approach and CVE (Common Vulnerabilities and Exposures)
-* Manually analyze official docker images, view commit history and identify how Dockerfiles evolve over time
-
-__Week 3-4__ 
-
-* Setup the base project
-* Automate the process of fetching commit history for a given GitHub repository
-* Generate a script to track changes between commits 
-
-__Week 4-5__
-
-* Identify commits contains a change in the Dockerfile
-* Build images of the commits in the specified timestamp
-
-__Week 6-7__
-
-* Collect reports using Clair for the images generated
-* Compare the reports to identify if a specific security threat is resolved
-
-__Week 8-9__
-
-* Identify the difference in the Dockerfile between commits and tag the change as a resolution for the security threat
-* Run the script across identified official docker images to identify a corpus of remediations for security vulnerabilities
-* Generate a report mapping the time elapsed between a security threat identification and remediation for each repository
-
-__Week 10-11__
-
-* Create a script to fetch the latest commit for a Github repository, build the docker image and use Claire to identify security threats
-* Provide suggestions for security vulnerabilities identified in the repository using the remediations identified
 
 ## Presentations
 
