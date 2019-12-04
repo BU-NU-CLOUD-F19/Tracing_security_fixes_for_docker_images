@@ -1,9 +1,9 @@
 # Tracing security fixes for docker images
 
 ## Installation and Deployment:
-### Deliverable 1:
+#### Deliverable 1:
 
-### Deliverable 2:
+#### Deliverable 2:
 
 ## Vision and Goals of the Project:
 
@@ -35,7 +35,7 @@ The study consists of two deliverables. The first is an analysis on how quickly 
 
 ### System Components:
 
-Below is a description of the system components and concepts that will be used to accomplish our goals:
+Below is a description of the system components and concepts that we used to accomplish our goals:
 
 * Security Vulnerability: A vulnerability is a problem in a project's code that could be exploited to damage the confidentiality, integrity, or availability of the project or other projects that use its code. Depending on the severity level and the way your project uses the dependency, vulnerabilities can cause a range of problems for your project or the people who use it.
 
@@ -48,6 +48,10 @@ Below is a description of the system components and concepts that will be used t
 * Dockerfile: Docker can build images automatically by reading the instructions from a Dockerfile. A Dockerfile is a text document that contains all the commands a user could call on the command line to assemble an image. Using docker build users can create an automated build that executes several command-line instructions in succession.
 
 * Clair:  [Clair](https://github.com/coreos/clair) is an open-source container vulnerability scanner recently released by CoreOs. The tool cross-checks if a Docker image's operating system and any of its installed packages match any known insecure package versions. The vulnerabilities are fetched from OS-specific common vulnerabilities and exposures (CVE) databases.
+
+* X-Force: [X-Force](https://www.ibm.com/security/services/ibm-x-force-incident-response-and-intelligence) is a cloud-based threat intelligence platform that allows you to consume, share and act on threat intelligence. It enables you to rapidly research the latest global security threats, aggregate actionable intelligence, consult with experts and collaborate with peers.
+
+* Ubuntu and Debian Launchpad: [Launchpad](https://launchpad.net) Launchpad is a web application and website that allows users to develop and maintain software, particularly open-source software. It provides API's to access various details about software including publishing history.
 
 ### Global Architectural Structure
 
