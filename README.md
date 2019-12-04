@@ -1,37 +1,5 @@
 # Tracing security fixes for docker images
 
-## Installation and Deployment:
-
-Clone the github repository to get access to the scripts:
-```
-git clone https://github.com/BU-NU-CLOUD-F19/Tracing_security_fixes_for_docker_images.git
-```
-
-To build and run the scripts, a stable version of Python3 and Pip3 is required in the system. [Install Python3](https://www.python.org/downloads/) | [Install Pip3](https://help.dreamhost.com/hc/en-us/articles/115000699011-Using-pip3-to-install-Python3-modules/)
-
-To install all the python packages which are required using
-```
-pip3 install -r requirements.txt
-```
-
-Individual instructions to run the scripts for each deliverable is:
-
-#### Deliverable 1:
-
-
-#### Deliverable 2:
-Docker is a requirement for building and running the script for deliverable 2. [Install Docker](https://docs.docker.com/v17.09/engine/installation/)
-
-The script accepts a file containing the list of docker images to analyse. You can choose to create one, or use the files present under the deliverable2/input folder
-
-To run the script, 
-
-```
-python3 deliverable2/analyze_os_distribution.py --images="path_to_image_list"
-```
-The script saves a CSV and a piechart with details of OS distribution in deliverables2/output folder
-
-
 ## Vision and Goals of the Project:
 
 It is important to understand the pattern in which various security issues are fixed in the real world. 
@@ -126,6 +94,37 @@ The result obtained from running the script over 142 official docker images are:
 
  * We identified that Debian, Ubunutu and Alpine are the most commonly used Operating Systems to base the docker images on and an analysis on the packages belonging to these OS packages will provide us with details on security remediations in about 85% of the docker images
  * Alpine being a light-weight OS was expected to be the top choice of Operating System to use but popular to contrary belief we found that more than 50% of the official docker images rely on Debain
+
+## Installation and Deployment:
+
+Clone the github repository to get access to the scripts:
+```
+git clone https://github.com/BU-NU-CLOUD-F19/Tracing_security_fixes_for_docker_images.git
+```
+
+To build and run the scripts, a stable version of Python3 and Pip3 is required in the system. [Install Python3](https://www.python.org/downloads/) | [Install Pip3](https://help.dreamhost.com/hc/en-us/articles/115000699011-Using-pip3-to-install-Python3-modules/)
+
+To install all the python packages which are required using
+```
+pip3 install -r requirements.txt
+```
+
+Individual instructions to run the scripts for each deliverable is:
+
+#### Deliverable 1:
+
+
+#### Deliverable 2:
+Docker is a requirement for building and running the script for deliverable 2. [Install Docker](https://docs.docker.com/v17.09/engine/installation/)
+
+The script accepts a file containing the list of docker images to analyse. You can choose to create one, or use the files present under the deliverable2/input folder
+
+To run the script, 
+
+```
+python3 deliverable2/analyze_os_distribution.py --images="path_to_image_list"
+```
+The script saves a CSV and a piechart with details of OS distribution in deliverables2/output folder
 
 ## Presentations
 
