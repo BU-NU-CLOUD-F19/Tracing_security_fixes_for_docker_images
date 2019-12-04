@@ -76,11 +76,13 @@ The development process started with a research to identify and gather the requi
 #### Observations:
 The results obtained from running the script for deliverable 1 are as follows:
 
+* Vulnerabilities per package in analyzed dockerfiles
 <p align="center">
   <img src="https://github.com/BU-NU-CLOUD-F19/Tracing_security_fixes_for_docker_images/blob/master/readme_resources/Number_of_vulnerabilities_per_package_in_the_dedup_data.png" alt="workflow">
 </p>
-The `openssl` package consists of the most vulnerabilities out of ~50 packages we analysed followed by `curl` and `binutils`.
+The `openssl` package consists of the most vulnerabilities out of the ~50 packages we analysed, followed by `curl` and `binutils`.
 
+* Time taken to fix vulnerabilities
 <p align="center">
   <img src="https://github.com/BU-NU-CLOUD-F19/Tracing_security_fixes_for_docker_images/blob/master/readme_resources/Debian_Vulnerability_Fixes.png" alt="workflow">
 </p>
@@ -89,7 +91,7 @@ This histogram shows that close to 70% of the vulnerabilities on Debian packages
 <p align="center">
   <img src="https://github.com/BU-NU-CLOUD-F19/Tracing_security_fixes_for_docker_images/blob/master/readme_resources/Ubuntu_Vulnerability_Fixes.png" alt="workflow">
 </p>
-This histogram shows that close to 50% of the vulnerabilities on Ubuntu packages are fixed withing 100 days of reporting which is quite impressive. Although there are vulnerabilities in both Debian and Ubuntu packages that take 5 years to be resolved, probably due to negligence or due to the less severity of the vulnerability.
+This histogram shows that close to 50% of the vulnerabilities on Ubuntu packages are fixed withing 100 days of reporting, which is quite impressive. Though there are some vulnerabilities in both Debian and Ubuntu packages that take 5 years to be resolved - probably due to negligence or due to the less severity of the vulnerability.
 
 ### Deliverable 2: Identify OS distribution
 #### Process:
@@ -140,15 +142,15 @@ python3 deliverable1/analyze_security_fixes.py"
 The data files are already saved in the output folder in the deliverable1 directory. But if you want to run them from scratch follow the instructions given by the script.
 
 1. "Enter (Y/N) to fetch clair reports:"
-	If you enter 'Y', you'll need to enter the GitHub username and password and the X-Force API Key.
-	This saves a CSV with the clair report details in deliverables1/outputs folder.
-	You can skip this step if you already have the reports stored in the outputs folder by entering 'N'.
+	* If you enter 'Y', you'll need to enter the GitHub username and password and the X-Force API Key.
+	* This saves a CSV with the clair report details in deliverables1/outputs folder.
+	* You can skip this step if you already have the reports stored in the outputs folder by entering 'N'.
 	
 2. "Please enter either Y or N to fetch clair reports:"
-	If you enter 'Y', you'll need to enter the X-Force API Key.
-	This saves the analysis reports as CSVs the graphs in the deliverables1/outputs folder.
+	* If you enter 'Y', you'll need to enter the X-Force API Key.
+	* This saves the analysis reports as CSVs the graphs in the deliverables1/outputs folder.
 		
-The command-line interface for deliverable looks like this:
+The command-line interface for deliverable 1 looks like this:
 <p align="center">
   <img src="https://github.com/BU-NU-CLOUD-F19/Tracing_security_fixes_for_docker_images/blob/master/readme_resources/deliverable1_screenshot.png" alt="deliverable1_screenshot">
 </p>
