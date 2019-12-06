@@ -100,52 +100,51 @@ def analyze_date_diff(api_key):
     plt.savefig("outputs/OS_Distribution")
 
     data_grouped = data.groupby('Severity_Level')
-    groups = [data_grouped.get_group(x) for x in data_grouped.groups]
 
-    for group in groups:
+    for severity, group in data_grouped:
         day_fixed_df = group[~group['Days_For_Fix'].isnull()]
         plt.figure(figsize=(10, 10))
         df = day_fixed_df['Days_For_Fix'][day_fixed_df['OS_base_name'] == 'debian']
-        print(group['Severity_Level'][0])
-        ax = df.plot('hist',
-                     weights=np.ones_like(df.index) / len(df.index),
-                     title="Time for package vulnerability fixes for Debian_" + group['Severity_Level'][0])
-        ax.set(xlabel='No of days')
+        if df.size != 0:
+            ax = df.plot('hist',
+                         weights=np.ones_like(df.index) / len(df.index),
+                         title="Time for package vulnerability fixes for Debian_" + severity)
+            ax.set(xlabel='No of days')
 
-        plt.show()
-        plt.savefig("outputs/Debian_Vulnerability_Fixes_" + group['Severity_Level'][0] + ".png")
+            plt.savefig("outputs/Debian_Vulnerability_Fixes_" + severity + ".png")
 
-        # plt.figure(figsize=(10, 10))
-        # df = day_fixed_df['Days_For_Fix'][day_fixed_df['OS_base_name'] == 'ubuntu']
-        # ax = df.plot('hist',
-        #              weights=np.ones_like(df.index) / len(df.index),
-        #              title="Time for package vulnerability fixes for Ubuntu_" + group["Severity_Level"][0])
-        ax.set(xlabel='No of days')
-        plt.savefig("outputs/Ubuntu_Vulnerability_Fixes_" + group['Severity_Level'][0] + ".png")
+        plt.figure(figsize=(10, 10))
+        df = day_fixed_df['Days_For_Fix'][day_fixed_df['OS_base_name'] == 'ubuntu']
+        if df.size != 0:
+            ax = df.plot('hist',
+                         weights=np.ones_like(df.index) / len(df.index),
+                         title="Time for package vulnerability fixes for Ubuntu_" + severity)
+            ax.set(xlabel='No of days')
+            plt.savefig("outputs/Ubuntu_Vulnerability_Fixes_" + severity + ".png")
 
     debian_info = data[data['OS_base_name'] == 'debian']
     print("For Debian:")
     print(len(debian_info[~debian_info['Date_Reported'].isnull()]), "vulnerabilities were reported")
     print(len(debian_info[~debian_info['Date_Fixed'].isnull()]), "vulnerabilities were fixed")
 
-    # ubuntu_info = data[data['OS_base_name'] == 'ubuntu']
-    # print("For Ubuntu:")
-    # print(len(ubuntu_info[~ubuntu_info['Date_Reported'].isnull()]), "vulnerabilities were reported")
-    # print(len(ubuntu_info[~ubuntu_info['Date_Fixed'].isnull()]), "vulnerabilities were fixed")
+    ubuntu_info = data[data['OS_base_name'] == 'ubuntu']
+    print("For Ubuntu:")
+    print(len(ubuntu_info[~ubuntu_info['Date_Reported'].isnull()]), "vulnerabilities were reported")
+    print(len(ubuntu_info[~ubuntu_info['Date_Fixed'].isnull()]), "vulnerabilities were fixed")
 
 
 if __name__ == '__main__':
     if not os.path.exists("outputs"):
         os.mkdir("outputs/")
 
-    # save_reports = input("Enter (Y/N) to fetch clair reports:")
-    # if save_reports == "Y":
-    #     save_clair_reports()
-    #     print("Clair reports are saved in the outputs directory.")
-    # elif save_reports == "N":
-    #     pass
-    # else:
-    #     print("Please enter either Y or N to fetch clair reports")
+    save_reports = input("Enter (Y/N) to fetch clair reports:")
+    if save_reports == "Y":
+        save_clair_reports()
+        print("Clair reports are saved in the outputs directory.")
+    elif save_reports == "N":
+        pass
+    else:
+        print("Please enter either Y or N to fetch clair reports")
 
     analyze_timestamps = input("Enter (Y/N) to analyze time for security fixes to be applied:")
 
