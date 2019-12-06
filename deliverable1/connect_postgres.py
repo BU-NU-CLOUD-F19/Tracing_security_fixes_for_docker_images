@@ -32,7 +32,7 @@ class PostgresOps:
 
         # execute a statement
         for package in valid_packages.split(", "):
-            query = "select f.name, v.name, n.name, fix.version from vulnerability_fixedin_feature fix, feature f, " \
+            query = "select f.name, v.name, n.name, fix.version, v.severity from vulnerability_fixedin_feature fix, feature f, " \
                     "vulnerability v, namespace n where fix.feature_id = f.id and v.id = fix.vulnerability_id and " \
                     "f.namespace_id = n.id and f.name = " + package + ";"
             try:
@@ -53,7 +53,7 @@ class PostgresOps:
         cur.close()
 
         clair_db_reports = pd.DataFrame(reports_data, columns=["Package", "Vulnerability",
-                                             "OS", "Package_Version"])
+                                             "OS", "Package_Version", "Severity_Level"])
         clair_db_reports.reset_index(inplace=True)
         return clair_db_reports
 
