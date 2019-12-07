@@ -12,10 +12,14 @@ The base goals are:
 
 ## Users and Personas
 
-The key end-user of the study will be developers so that they can identify package publishers who are proactive towards fixing security threats
-Developers and security analysts can use the results of the study to identify packages that are updated quickly and are reliable in terms of fixing any security vulnerability quickly. It can help decide the course of action while deciding two packages that have the same functionality
-Developers can also use the tool to identify common OS distributions used by official docker images
-Researches can further the study by incorporating the publishing history of OS distributions not targetted by this study (like Alpine, Centos, etc) to provide a single source of truth for developers to use while identifying potential packages to use
+The project promotes left-shift approach allowing developers to choose the OS distribution and packages which was aggresively responding to security issues. Some ways to use the study are:
+
+### How to use the study?
+
+ * Developers identify package publishers who are proactive towards fixing security threats
+ * Developers and security analysts can use the results of the study to identify packages that are updated quickly and are reliable in terms of fixing any security vulnerability quickly. It can help decide the course of action while deciding two packages that have the same functionality
+ * Developers can also use the tool to identify common OS distributions used by official docker images
+ * Researches can further the study by incorporating the publishing history of OS distributions not targetted by this study (like Alpine, Centos, etc) to provide a single source of truth for developers to use while identifying potential packages to use
 
 ## Scope and features of the project:
 
