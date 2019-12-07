@@ -73,7 +73,7 @@ The development process started with a research to identify and gather the requi
 
 **Step 8:** Using the data obtained in the previous step, aggreate and plot graphs to study about the trends of security fixes in OS packages used by official docker images
 
-#### Observations:
+### Observations:
 The results obtained from running the script for deliverable 1 are as follows:
 
 * Vulnerabilities per package in analyzed dockerfiles
@@ -82,16 +82,63 @@ The results obtained from running the script for deliverable 1 are as follows:
 </p>
 The `openssl` package consists of the most vulnerabilities out of the ~50 packages we analysed, followed by `curl` and `binutils`.
 
-* Time taken to fix vulnerabilities
+#### Debian
+***Time taken to fix any type of vulnerabilities on average***
 <p align="center">
   <img src="https://github.com/BU-NU-CLOUD-F19/Tracing_security_fixes_for_docker_images/blob/master/readme_resources/Debian_Vulnerability_Fixes.png" alt="workflow">
 </p>
-This histogram shows that close to 70% of the vulnerabilities on Debian packages are fixed withing 250 days of reporting.
+This histogram shows that close to 70% of the vulnerabilities on Debian packages are fixed within 250 days of reporting.
+<br/>
 
+***Time taken to fix High severity vulnerabilities***
+<p align="center">
+  <img src="https://github.com/BU-NU-CLOUD-F19/Tracing_security_fixes_for_docker_images/blob/master/readme_resources/Debian_Vulnerability_Fixes_High.png" alt="workflow">
+</p>
+This histogram shows that more than 50% High severity vulnerabilities on Debian packages are fixed about 100-150 days of reporting.
+<br/>
+
+***Time taken to fix Medium severity vulnerabilities***
+<p align="center">
+  <img src="https://github.com/BU-NU-CLOUD-F19/Tracing_security_fixes_for_docker_images/blob/master/readme_resources/Debian_Vulnerability_Fixes_Medium.png" alt="workflow">
+</p>
+This histogram shows that almost all Medium severity vulnerabilities on Debian packages are fixed about 500-600 days of reporting, with about 70% being patched within 150 days.
+<br/>
+
+***Time taken to fix Low severity vulnerabilities***
+<p align="center">
+  <img src="https://github.com/BU-NU-CLOUD-F19/Tracing_security_fixes_for_docker_images/blob/master/readme_resources/Debian_Vulnerability_Fixes_Low.png" alt="workflow">
+</p>
+This histogram shows that about 75% of low vulnerabilities on Debian packages are fixed within 400 days of reporting, although the distribution is somewhat skewed over more days as developers may tend to fix them only after dealing with more critical patches.
+<br/>
+
+#### Ubuntu
+***Time taken to fix any type of vulnerabilities on average***
 <p align="center">
   <img src="https://github.com/BU-NU-CLOUD-F19/Tracing_security_fixes_for_docker_images/blob/master/readme_resources/Ubuntu_Vulnerability_Fixes.png" alt="workflow">
 </p>
 This histogram shows that close to 50% of the vulnerabilities on Ubuntu packages are fixed withing 100 days of reporting, which is quite impressive. Though there are some vulnerabilities in both Debian and Ubuntu packages that take 5 years to be resolved - probably due to negligence or due to the less severity of the vulnerability.
+<br/>
+
+***Time taken to fix High severity vulnerabilities***
+<p align="center">
+  <img src="https://github.com/BU-NU-CLOUD-F19/Tracing_security_fixes_for_docker_images/blob/master/readme_resources/Ubuntu_Vulnerability_Fixes_High.png" alt="workflow">
+</p>
+This histogram shows that about 70% of High vulnerabilities on Ubuntu packages are fixed within 200 days of reporting, which is still little short of the 50% fixed within 100-150 days for Debain packages. Although, about 30% take more or less 600-700 days to patch.
+<br/>
+
+***Time taken to fix Medium severity vulnerabilities***
+<p align="center">
+  <img src="https://github.com/BU-NU-CLOUD-F19/Tracing_security_fixes_for_docker_images/blob/master/readme_resources/Ubuntu_Vulnerability_Fixes_Medium.png" alt="workflow">
+</p>
+This histogram shows that almost 75% Medium severity vulnerabilities on Ubuntu packages are fixed within 300 days which is quite slow compared to Debian packages.
+<br/>
+
+***Time taken to fix Low severity vulnerabilities***
+<p align="center">
+  <img src="https://github.com/BU-NU-CLOUD-F19/Tracing_security_fixes_for_docker_images/blob/master/readme_resources/Ubuntu_Vulnerability_Fixes_Low.png" alt="workflow">
+</p>
+This histogram shows that about 65-70% Low severity vulnerabilities on Ubuntu packages are fixed within 300 days of reporting, which is almost at par with Debain packages at 75% fixed within 400 days. 
+<br/>
 
 ### Deliverable 2: Identify OS distribution
 #### Process:
