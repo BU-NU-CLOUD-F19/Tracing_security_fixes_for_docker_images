@@ -100,7 +100,7 @@ class GithubCli:
         g = Github(self.username, self.password)
 
         # Fetch repositories
-        repo_list = open('input/repo_list_mock.txt', 'r')
+        repo_list = open('input/repo_list.txt', 'r')
 
         dockerfile_packages_map = defaultdict(list)
 

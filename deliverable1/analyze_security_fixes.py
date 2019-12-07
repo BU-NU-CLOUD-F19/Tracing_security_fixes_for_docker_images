@@ -9,6 +9,7 @@ import click
 from tqdm import tqdm
 from datetime import datetime
 
+
 @click.command()
 @click.option('--username', prompt='User', help='Your GitHub username.')
 @click.option('--password', prompt=True, hide_input=True, help='Your GitHub password.')
@@ -37,58 +38,58 @@ def save_clair_reports(username, password, api_key):
 
     clair_db_reports.to_csv("outputs/clair_reports.csv", index=False)
 
+
 @click.command()
 @click.option('--api_key', prompt='XForce API Key', hide_input=True, help='XForce API Key')
 def analyze_date_diff(api_key):
     tqdm.pandas()
 
-    # full_data_path = "outputs/clair_reports.csv"
-    full_data_path = "outputs/vulnerability_timestamps.csv"
+    full_data_path = "outputs/clair_reports.csv"
     data = pd.read_csv(full_data_path, index_col=0)
-    # plt.figure(figsize=(10, 10))
-    # data.Package.value_counts()[::-1].plot('barh',
-    #                                        title="Number of vulnerabilities per package in the full data")
-    # plt.savefig("outputs/Number_of_vulnerabilities_per_package_in_the_full_data.png")
-    #
-    # analyze_ts = AnalyzeTimeStamps(api_key)
-    #
-    # ## Deduplicating
-    # data['OS_base_name'] = data.apply(lambda row: row['OS'].split(":")[0], axis=1)
-    # data = data[~data[['Package', 'Vulnerability', 'Package_Version', 'OS_base_name', 'Severity_Level']].duplicated()]
-    #
-    # ## Fetching dates when vulnerabilities were reported and fixed
-    # data['Date_Reported'] = data.progress_apply(lambda r:
-    #                                             analyze_ts.fetch_xforce_timestamp(r['Vulnerability']),
-    #                                             axis=1)
-    # data['Date_Fixed'] = data.progress_apply(lambda row:
-    #                                          analyze_ts.fetch_version_timestamp(row['OS'],
-    #                                                                             row['Package'],
-    #                                                                             row['Package_Version']),
-    #                                          axis=1)
-    #
-    # def get_date_diff(row):
-    #     date_format = "%Y-%m-%d"
-    #     if row['Date_Fixed']:
-    #         fixed = datetime.strptime(row['Date_Fixed'], date_format)
-    #     else:
-    #         fixed = None
-    #     if row['Date_Reported']:
-    #         reported = datetime.strptime(row['Date_Reported'], date_format)
-    #     else:
-    #         reported = None
-    #     if fixed and reported:
-    #         return abs((fixed - reported).days)
-    #     else:
-    #         return None
-    #
-    # data['Days_For_Fix'] = data.progress_apply(lambda row: get_date_diff(row), axis=1)
+    plt.figure(figsize=(10, 10))
+    data.Package.value_counts()[::-1].plot('barh',
+                                           title="Number of vulnerabilities per package in the full data")
+    plt.savefig("outputs/Number_of_vulnerabilities_per_package_in_the_full_data.png")
 
-    # data.to_csv('outputs/vulnerability_timestamps.csv')
+    analyze_ts = AnalyzeTimeStamps(api_key)
+
+    # Deduplicating
+    data['OS_base_name'] = data.apply(lambda row: row['OS'].split(":")[0], axis=1)
+    data = data[~data[['Package', 'Vulnerability', 'Package_Version', 'OS_base_name', 'Severity_Level']].duplicated()]
+
+    # Fetching dates when vulnerabilities were reported and fixed
+    data['Date_Reported'] = data.progress_apply(lambda r:
+                                                analyze_ts.fetch_xforce_timestamp(r['Vulnerability']),
+                                                axis=1)
+    data['Date_Fixed'] = data.progress_apply(lambda row:
+                                             analyze_ts.fetch_version_timestamp(row['OS'],
+                                                                                row['Package'],
+                                                                                row['Package_Version']),
+                                             axis=1)
+
+    def get_date_diff(row):
+        date_format = "%Y-%m-%d"
+        if row['Date_Fixed']:
+            fixed = datetime.strptime(row['Date_Fixed'], date_format)
+        else:
+            fixed = None
+        if row['Date_Reported']:
+            reported = datetime.strptime(row['Date_Reported'], date_format)
+        else:
+            reported = None
+        if fixed and reported:
+            return abs((fixed - reported).days)
+        else:
+            return None
+
+    data['Days_For_Fix'] = data.progress_apply(lambda row: get_date_diff(row), axis=1)
+
+    data.to_csv('outputs/vulnerability_timestamps.csv')
     columns = ['Package', 'Vulnerability', 'OS', 'Package_Version', 'OS_base_name', 'Severity_Level',
                'Date_Reported', 'Date_Fixed', 'Days_For_Fix']
     data = data[columns]
 
-    ## Plotting analysis
+    # Plotting analysis
     plt.figure(figsize=(10, 10))
     data.Package.value_counts()[::-1].plot('barh',
                                             title="Number of vulnerabilities per package in the de-duplicated data")
